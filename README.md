@@ -4,16 +4,15 @@ A library for classifying text into multiple categories.
 
 Currently provided classifiers:
 
-- a naive bayes classifier
-- a classifier based on tf-idf weights (made by me, not sure about
-  correctness, but seems to works super, see benchmark below)
+- a [naive bayes classifier](http://en.wikipedia.org/wiki/Naive_Bayes_classifier)
+- a classifier based on [tf-idf weights](http://en.wikipedia.org/wiki/Tf%E2%80%93idf)
 
 Ran a benchmark of 1345 items that I have previously manually
 classified with multiple categories. Here's the rate over which the 2
 algorithms have correctly detected one of those categories:
 
-  NaiveBayesClassifier: 79.26%
-  TfIdfClassifier: 81.34%
+- Bayes: 79.26%
+- Tf-Idf: 81.34%
 
 I prefer the Naive Bayes approach, because while having lower stats on
 this benchmark, it seems to make better decisions than I did in many
@@ -91,3 +90,14 @@ cls.classify("Why is the front door of our house open?")
 cls.classify("Who is eating my meat?")
 #=> :dog
 ```
+
+## TODO
+
+- provide more implementations
+- plugable storage mechanism (in-memory, on disk, database)
+
+## License
+
+MIT Licensed. See LICENSE.txt for details.
+
+
