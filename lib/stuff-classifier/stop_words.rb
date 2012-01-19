@@ -1,3 +1,5 @@
+require 'set'
+
 StuffClassifier::STOP_WORDS = Set.new [
     'a', 'about', 'above', 'across', 'after', 'afterwards', 
     'again', 'against', 'all', 'almost', 'alone', 'along', 
