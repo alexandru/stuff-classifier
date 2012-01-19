@@ -1,9 +1,9 @@
 require 'helper'
 
 
-class Test002NaiveBayesClassification < TestBase
+class Test003TfIdfClassification < TestBase
   before do
-    set_classifier StuffClassifier::Bayes.new("Cats or Dogs")
+    set_classifier StuffClassifier::TfIdf.new("Cats or Dogs")
     
     train :dog, "Dogs are awesome, cats too. I love my dog"
     train :cat, "Cats are more preferred by software developers. I never could stand cats. I have a dog"    
@@ -32,6 +32,6 @@ class Test002NaiveBayesClassification < TestBase
     should_be :dog, "Willy, where the heck are you?"
     should_be :dog, "I like big buts and I cannot lie." 
     should_be :dog, "Why is the front door of our house open?"
-    should_be :dog, "Who ate my meat?"
+    should_be :dog, "Who is eating my meat?"
   end
 end
