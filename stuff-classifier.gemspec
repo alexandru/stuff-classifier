@@ -8,7 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Alexandru Nedelcu"]
   s.email       = ["me@alexn.org"]
   s.homepage    = "https://github.com/alexandru/stuff-classifier/"
-  s.summary     = %q{Classifies stuff}
+  s.summary     = %q{Simple text classifier(s) implemetation}
+  s.description = %q{2 methods are provided for now - (1) naive bayes implementation + (2) tf-idf weights}
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
