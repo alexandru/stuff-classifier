@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     stuff-classifier (0.1)
+      fast-stemmer (>= 1.0)
 
 GEM
   remote: http://rubygems.org/
@@ -9,6 +10,7 @@ GEM
     ansi (1.4.1)
     archive-tar-minitar (0.5.2)
     columnize (0.3.4)
+    fast-stemmer (1.0.0)
     json (1.6.5)
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
