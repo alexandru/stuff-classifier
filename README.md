@@ -72,6 +72,8 @@ cls.classify("The preferred company of software developers.")
 #=> :cat
 cls.classify("My precious, my favorite!")
 #=> :cat
+cls.classify("Get off my keyboard!")
+#=> :cat
 cls.classify("Kill that bird!")
 #=> :cat
 
