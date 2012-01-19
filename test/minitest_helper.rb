@@ -38,6 +38,6 @@ class StuffClassifierTest < MiniTest::Unit::TestCase
   end
 
   def should_be(category, value)
-    assert_equal category, @classifier.classify(value)
+    assert_equal category, @classifier.classify(value), value
   end
 end
