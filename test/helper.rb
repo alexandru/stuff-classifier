@@ -17,8 +17,7 @@ Turn.config do |c|
  c.natural = true
 end
 
-
-class StuffClassifierTest < MiniTest::Unit::TestCase
+class TestBase < MiniTest::Unit::TestCase
   def self.before(&block)    
     @on_setup = block if block
     @on_setup

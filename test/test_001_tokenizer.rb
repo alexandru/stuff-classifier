@@ -1,7 +1,6 @@
-require 'minitest_helper'
+require 'helper'
 
-
-class Test001Tokenizer < StuffClassifierTest  
+class Test001Tokenizer < TestBase
   before do
     tokenizer_cls = Class.new do
       include StuffClassifier::Tokenizer

@@ -4,4 +4,5 @@ module StuffClassifier
   autoload :Tokenizer,  'stuff-classifier/tokenizer'
   autoload :Base,       'stuff-classifier/base'
   autoload :Bayes,      'stuff-classifier/bayes'
+  autoload :TfIdf,      'stuff-classifier/tf-idf'
 end
