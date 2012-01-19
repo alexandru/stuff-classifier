@@ -22,8 +22,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rake", ">= 0.9.2"
   s.add_development_dependency "minitest", ">= 2.10"
   s.add_development_dependency "turn", ">= 0.8.3"
-  s.add_development_dependency "rdoc", ">= 3.1"
   s.add_development_dependency "rcov", ">= 0.9"
-  s.add_development_dependency "ruby-debug19"
+  # s.add_development_dependency "rdoc", ">= 3.1"
 end
 
