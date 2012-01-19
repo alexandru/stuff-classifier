@@ -16,3 +16,28 @@ Turn.config do |c|
  # use humanized test names (works only with :outline format)
  c.natural = true
 end
+
+
+class StuffClassifierTest < MiniTest::Unit::TestCase
+  def self.before(&block)    
+    @on_setup = block if block
+    @on_setup
+  end
+
+  def setup
+    on_setup = self.class.before
+    instance_eval(&on_setup) if on_setup
+  end
+
+  def set_classifier(instance)
+    @classifier = instance
+  end
+
+  def train(category, value)
+    @classifier.train(category, value)
+  end
+
+  def should_be(category, value)
+    assert_equal category, @classifier.classify(value)
+  end
+end

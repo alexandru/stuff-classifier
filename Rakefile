@@ -1,6 +1,6 @@
 require 'bundler/setup'
 require 'rake/testtask'
-require 'stuff-classifier/version'
+require 'stuff-classifier'
 
 Rake::TestTask.new(:test) do |test|
   test.libs << 'lib' << 'test'
