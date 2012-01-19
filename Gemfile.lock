@@ -1,0 +1,29 @@
+PATH
+  remote: .
+  specs:
+    stuff-classifier (0.1)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    ansi (1.4.1)
+    json (1.6.5)
+    minitest (2.10.1)
+    rake (0.9.2.2)
+    rcov (0.9.11)
+    rdoc (3.12)
+      json (~> 1.4)
+    turn (0.8.3)
+      ansi
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler
+  minitest (>= 2.10)
+  rake (>= 0.9.2)
+  rcov (>= 0.9)
+  rdoc (>= 3.1)
+  stuff-classifier!
+  turn (>= 0.8.3)
