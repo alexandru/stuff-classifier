@@ -37,8 +37,7 @@ module StuffClassifier::Tokenizer
           w = w.downcase
         end
 
-        yield w if block_given?
-        words << w
+        words << (block_given? ? (yield w) : w)
       end
     end
 
