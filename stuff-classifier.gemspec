@@ -21,7 +21,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "sequel"
   s.add_runtime_dependency "msgpack"
 
-  s.add_development_dependency "ruby-debug19"
   s.add_development_dependency "bundler"
   s.add_development_dependency "rake", ">= 0.9.2"
   s.add_development_dependency "minitest", ">= 2.10"
