@@ -93,10 +93,46 @@ cls.classify("Who is eating my meat?")
 #=> :dog
 ```
 
-## TODO
+## Persistency
 
-- provide more implementations
-- plugable storage mechanism (in-memory, on disk, database)
+2 persistency layers for saving the training data are implemented:
+
+- in memory (by default)
+- on disk
+
+To persist the data on disk, you can do this:
+
+```ruby
+store = StuffClassifier::FileStorage.new(@storage_path)
+
+# global setting
+StuffClassifier::Base.storage = store
+
+# or alternative local setting on instantiation, by means of an
+# optional param
+
+cls = StuffClassifier::Bayes.new("Cats or Dogs", :storage => store)
+
+# after training is done, to persist the data:
+
+cls.save_state
+
+# or you could just do this:
+
+StuffClassifier::Bayes.open("Cats or Dogs") do |cls|
+  # when done, save_state is called on END
+end
+```
+
+The name you give your classifier is important, as based on it the
+data will get loaded and saved. For instance, following 3 classifiers
+will be stored in different buckets, being independent of each other:
+
+```ruby
+cls1 = StuffClassifier::Bayes.new("Cats or Dogs")
+cls2 = StuffClassifier::Bayes.new("True or False")
+cls3 = StuffClassifier::Bayes.new("Spam or Ham")	
+```
 
 ## License
 

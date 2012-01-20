@@ -2,6 +2,8 @@
 class StuffClassifier::Bayes < StuffClassifier::Base
   # http://en.wikipedia.org/wiki/Naive_Bayes_classifier
 
+  attr_writer :thresholds
+
   def initialize(name, opts={})
     super(name, opts)
     @thresholds = {}
