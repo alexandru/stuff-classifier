@@ -16,15 +16,15 @@ Rcov::RcovTask.new do |test|
   test.rcov_opts << '--exclude "gems/*"'
 end
 
-require 'rdoc/task'
-RDoc::Task.new do |rdoc|
-  version = StuffClassifier::VERSION
-
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "stuff-classifier #{version}"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
-end
+#require 'rdoc/task'
+#RDoc::Task.new do |rdoc|
+#  version = StuffClassifier::VERSION
+#
+#  rdoc.rdoc_dir = 'rdoc'
+#  rdoc.title = "stuff-classifier #{version}"
+#  rdoc.rdoc_files.include('README*')
+#  rdoc.rdoc_files.include('lib/**/*.rb')
+#end
 
 task :default => :test
 

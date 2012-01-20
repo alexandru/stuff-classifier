@@ -1,12 +1,22 @@
 class StuffClassifier::Base
   include StuffClassifier::Tokenizer
+  attr_reader :name
   
   def initialize(name, opts={})
-    @name = name
     @stemming = opts.key?(:stemming) ? opts[:stemming] : true
+    purge_state = opts[:purge_state]
+
+    @name = name
     @wcount = {}
     @ccount = {}
     @ignore_words = nil
+
+    @storage = opts[:storage] || StuffClassifier::Base.storage
+    unless purge_state
+      @storage.load_state(self)
+    else
+      @storage.purge_state(self)
+    end
   end
 
   def incr_word(word, category)
@@ -62,5 +72,28 @@ class StuffClassifier::Base
     
     # the final weighted average
     (weight * assumed_prob + totals * basic_prob) / (weight + totals)
+  end
+
+  def save_state
+    @storage.save_state(self)
+  end
+
+  class << self
+    attr_writer :storage
+
+    def storage
+      @storage = StuffClassifier::InMemoryStorage.new unless defined? @storage
+      @storage
+    end
+
+    def open(name)
+      inst = self.new(name)
+      if block_given?
+        yield inst
+        inst.save_state
+      else
+        inst
+      end
+    end
   end
 end
