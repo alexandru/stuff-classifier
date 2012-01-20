@@ -43,7 +43,16 @@ cls = StuffClassifier::Bayes.new("Cats or Dogs")
 
 # for the Tf-Idf based implementation
 cls = StuffClassifier::TfIdf.new("Cats or Dogs")
-```
+
+# these classifiers use word stemming by default, but if it has weird
+# behavior, then you can disable it on init:
+cls = StuffClassifier::TfIdf.new("Cats or Dogs", :stemming => false)
+
+# also by default, the parsing phase filters out stop words, to
+# disable or to come up with your own list of stop words, on a
+# classifier instance you can do this:
+cls.ignore_words = [ ... ]
+ ```
 
 Training the classifier:
 
@@ -109,24 +118,24 @@ store = StuffClassifier::FileStorage.new(@storage_path)
 StuffClassifier::Base.storage = store
 
 # or alternative local setting on instantiation, by means of an
-# optional param
-
+# optional param ...
 cls = StuffClassifier::Bayes.new("Cats or Dogs", :storage => store)
 
-# after training is done, to persist the data:
-
+# after training is done, to persist the data ...
 cls.save_state
 
 # or you could just do this:
-
 StuffClassifier::Bayes.open("Cats or Dogs") do |cls|
   # when done, save_state is called on END
 end
+
+# to start fresh, deleting the saved training data for this classifier
+StuffClassifier::Bayes.new("Cats or Dogs", :purge_state => true)
 ```
 
 The name you give your classifier is important, as based on it the
 data will get loaded and saved. For instance, following 3 classifiers
-will be stored in different buckets, being independent of each other:
+will be stored in different buckets, being independent of each other.
 
 ```ruby
 cls1 = StuffClassifier::Bayes.new("Cats or Dogs")

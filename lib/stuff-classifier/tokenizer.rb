@@ -1,6 +1,7 @@
 require 'fast_stemmer'
 
 module StuffClassifier::Tokenizer
+  attr_writer :stemming
 
   def ignore_words=(value)
     @ignore_words = value
@@ -12,10 +13,6 @@ module StuffClassifier::Tokenizer
 
   def stemming?
     defined?(@stemming) ? @stemming : false
-  end
-
-  def stemming=(value)
-    @stemming = value
   end
 
   def each_word(string)
