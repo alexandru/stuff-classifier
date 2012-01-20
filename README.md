@@ -104,10 +104,12 @@ cls.classify("Who is eating my meat?")
 
 ## Persistency
 
-2 persistency layers for saving the training data are implemented:
+The following layers for saving the training data between sessions are
+implemented:
 
 - in memory (by default)
 - on disk
+- (coming soon) in a RDBMS
 
 To persist the data on disk, you can do this:
 
