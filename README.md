@@ -51,7 +51,7 @@ cls = StuffClassifier::TfIdf.new("Cats or Dogs", :stemming => false)
 # also by default, the parsing phase filters out stop words, to
 # disable or to come up with your own list of stop words, on a
 # classifier instance you can do this:
-cls.ignore_words = [ ... ]
+cls.ignore_words = [ 'the', 'my', 'i', 'dont' ]
  ```
 
 Training the classifier:
