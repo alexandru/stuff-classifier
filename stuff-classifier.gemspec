@@ -19,7 +19,9 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "fast-stemmer", ">= 1.0"
   s.add_runtime_dependency "sqlite3"
   s.add_runtime_dependency "sequel"
-  s.add_runtime_dependency "msgpack"
+  # Msgpack has a habbit of changing the format, so I'm setting its
+  # version in stone
+  s.add_runtime_dependency "msgpack", "= 0.4.6" 
 
   s.add_development_dependency "bundler"
   s.add_development_dependency "rake", ">= 0.9.2"
