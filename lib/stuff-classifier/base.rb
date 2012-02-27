@@ -63,8 +63,7 @@ class StuffClassifier::Base
     assumed_prob = opts[:assumed_prob] || 0.5
 
     # calculate current probability
-    basic_prob = func ? func.call(word, cat) 
-      : word_prob(word, cat)
+    basic_prob = func ? func.call(word, cat) : word_prob(word, cat)
     
     # count the number of times this word has appeared in all
     # categories
