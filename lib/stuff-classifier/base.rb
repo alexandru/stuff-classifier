@@ -1,3 +1,6 @@
+# encoding: utf-8
+require "lingua/stemmer"
+
 class StuffClassifier::Base
   include StuffClassifier::Tokenizer
   attr_reader :name
@@ -5,6 +8,14 @@ class StuffClassifier::Base
   def initialize(name, opts={})
     @stemming = opts.key?(:stemming) ? opts[:stemming] : true
     purge_state = opts[:purge_state]
+
+    if opts[:language]
+      @language=opts[:language]
+    else
+      @language="en"
+    end
+
+    @stemmer = Lingua::Stemmer.new(:language => @language)
 
     @name = name
     @wcount = {}
@@ -39,6 +50,11 @@ class StuffClassifier::Base
     @ccount[category] ? @ccount[category].to_f : 0.0
   end
 
+  def total_in_cat(category)
+    # this has to be optimized
+     @wcount.find_all{|k,v| v.member? category}.map{|k,v| v[category]}.inject(0){|a,b| a+b}
+  end
+
   def total_count
     @ccount.values.inject(0){|s,c| s + c}.to_f
   end
@@ -53,8 +69,9 @@ class StuffClassifier::Base
   end
 
   def word_prob(word, cat)
-    return 0.0 if cat_count(cat) == 0
-    word_count(word, cat) / cat_count(cat)
+    total_words_in_cat = total_in_cat(cat)
+    return 0.0 if total_words_in_cat == 0
+    word_count(word, cat).to_f / total_words_in_cat
   end
 
   def word_weighted_average(word, cat, opts={})
