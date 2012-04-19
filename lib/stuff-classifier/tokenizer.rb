@@ -1,4 +1,4 @@
-require 'fast_stemmer'
+# encoding: utf-8
 
 module StuffClassifier::Tokenizer
   attr_writer :stemming
@@ -8,7 +8,7 @@ module StuffClassifier::Tokenizer
   end
 
   def ignore_words
-    @ignore_words || StuffClassifier::STOP_WORDS
+    @ignore_words || StuffClassifier::STOP_WORDS[@language]
   end
 
   def stemming?
@@ -20,15 +20,13 @@ module StuffClassifier::Tokenizer
     return if string == ''
 
     words = []
-    
-    cnt = string.gsub(/['`]/, '')
-    cnt.split("\n").each do |line|
-      line_cnt = line.gsub(/[^a-zA-Z]+/, ' ')
-      line_cnt.split(/\s+/).each do |w|
+        
+    string.split("\n").each do |line|
+      line.gsub(/\p{Word}+/).each do |w|
         next if w == '' || ignore_words.member?(w.downcase)
 
         if stemming?
-          w = w.stem.downcase
+          w = @stemmer.stem(w).downcase
           next if ignore_words.member?(w)
         else
           w = w.downcase
