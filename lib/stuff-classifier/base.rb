@@ -1,3 +1,6 @@
+# encoding: utf-8
+require "lingua/stemmer"
+
 class StuffClassifier::Base
   include StuffClassifier::Tokenizer
   attr_reader :name
@@ -5,6 +8,14 @@ class StuffClassifier::Base
   def initialize(name, opts={})
     @stemming = opts.key?(:stemming) ? opts[:stemming] : true
     purge_state = opts[:purge_state]
+
+    if opts[:language]
+      @language=opts[:language]
+    else
+      @language="en"
+    end
+
+    @stemmer = Lingua::Stemmer.new(:language => @language)
 
     @name = name
     @wcount = {}
