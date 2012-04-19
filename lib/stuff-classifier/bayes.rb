@@ -1,3 +1,4 @@
+# encoding: utf-8
 
 class StuffClassifier::Bayes < StuffClassifier::Base
   # http://en.wikipedia.org/wiki/Naive_Bayes_classifier
