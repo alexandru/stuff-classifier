@@ -8,12 +8,12 @@ module StuffClassifier::Tokenizer
   end
 
   def ignore_words
-    @ignore_words || StuffClassifier::STOP_WORDS[@language]
+    @ignore_words || StuffClassifier::STOP_WORDS[language || "en"]
   end
 
   def stemming?
     defined?(@stemming) ? @stemming : false
-  end
+  end  
 
   def each_word(string)
     string = string.strip
@@ -22,10 +22,12 @@ module StuffClassifier::Tokenizer
     words = []
         
     string.split("\n").each do |line|
-      line.gsub(/\p{Word}+/).each do |w|
+      line = line.gsub(/(\p{Alpha})['`](\p{Alpha})/, '\1\2')
+
+      line.gsub(/\p{Alnum}+/).each do |w|
         next if w == '' || ignore_words.member?(w.downcase)
 
-        if stemming?
+        if stemming? and stemable?(w)
           w = @stemmer.stem(w).downcase
           next if ignore_words.member?(w)
         else
@@ -39,4 +41,10 @@ module StuffClassifier::Tokenizer
     return words
   end
 
+private 
+
+  def stemable?(word)
+    word =~ /^\p{Alpha}+$/
+  end
+  
 end
