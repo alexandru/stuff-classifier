@@ -3,7 +3,9 @@ require "lingua/stemmer"
 
 class StuffClassifier::Base
   include StuffClassifier::Tokenizer
+
   attr_reader :name
+  attr_accessor :language
   
   def initialize(name, opts={})
     @stemming = opts.key?(:stemming) ? opts[:stemming] : true
