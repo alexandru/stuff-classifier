@@ -26,8 +26,8 @@ class Test001Tokenizer < TestBase
     
     should_return = [
       "realli", "want", "accomplish", "class",
-      "testeval", "test", "eval", "testeval", "new", "class", "end",
-      "yields", "nil", "output", "ok", "guess"]
+      "testeval2", "test_eval2", "testeval2", "new", "class", "end",
+      "yield", "nil", "output", "ok", "guess"]
     
     assert_equal should_return, words
   end  
