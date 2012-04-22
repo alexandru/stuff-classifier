@@ -1,6 +1,9 @@
+require 'simplecov'
+SimpleCov.start
+
+require 'turn'
 require 'minitest/autorun'
 require 'stuff-classifier'
-require 'turn'
 
 Turn.config do |c|
  # use one of output formats:

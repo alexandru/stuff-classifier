@@ -1,0 +1,5 @@
+.rvmrc
+coverage/
+.DS_Store
+*.gem
+Gemfile.lock
