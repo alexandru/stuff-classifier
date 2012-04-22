@@ -1,7 +1,8 @@
 module StuffClassifier
   autoload :VERSION,    'stuff-classifier/version'
+
   autoload :Tokenizer,  'stuff-classifier/tokenizer'
-  autoload :STOP_WORDS, 'stuff-classifier/tokenizer_properties'
+#  autoload :"Tokenizer::TOKENIZER_PROPERTIES", 'stuff-classifier/tokenizer_properties'
 
   autoload :Base,       'stuff-classifier/base'
   autoload :Bayes,      'stuff-classifier/bayes'
