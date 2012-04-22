@@ -1,21 +1,16 @@
 # encoding: utf-8
-require "lingua/stemmer"
 
 class StuffClassifier::Base
-  include StuffClassifier::Tokenizer
+#  include StuffClassifier::Tokenizer
   attr_reader :name
   
+  def tokenizer
+    @tokenizer
+  end
   def initialize(name, opts={})
-    @stemming = opts.key?(:stemming) ? opts[:stemming] : true
     purge_state = opts[:purge_state]
-
-    if opts[:language]
-      @language=opts[:language]
-    else
-      @language="en"
-    end
-
-    @stemmer = Lingua::Stemmer.new(:language => @language)
+    
+    @tokenizer = StuffClassifier::Tokenizer.new(opts)
 
     @name = name
     @wcount = {}
@@ -64,7 +59,7 @@ class StuffClassifier::Base
   end
 
   def train(category, text)
-    each_word(text) {|w| incr_word(w, category) }
+    @tokenizer.each_word(text) {|w| incr_word(w, category) }
     incr_cat(category)
   end
 

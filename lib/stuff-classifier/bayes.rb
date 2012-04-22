@@ -11,7 +11,7 @@ class StuffClassifier::Bayes < StuffClassifier::Base
   end
 
   def doc_prob(text, category)
-    each_word(text).map {|w|
+    @tokenizer.each_word(text).map {|w|
       word_weighted_average(w, category)
     }.inject(1) {|p,c| p * c}
   end

@@ -3,12 +3,11 @@ require 'helper.rb'
 class Test001Tokenizer < TestBase
   before do
     @tokenizer = StuffClassifier::Bayes.new("TEST")
-
   end
 
   def test_simple_tokens
-    assert_equal ["hello", "world"], 
-      @tokenizer.each_word('Hello world! How are you?')
+     assert_equal ["hello", "world"], 
+       @tokenizer.each_word('Hello world! How are you?')
   end    
 
   def test_with_stemming
@@ -26,7 +25,7 @@ class Test001Tokenizer < TestBase
       your output is ok I guess ;-)")
     
     should_return = [
-      "really", "want", "accomplish", "class",
+      "realli", "want", "accomplish", "class",
       "testeval", "test", "eval", "testeval", "new", "class", "end",
       "yields", "nil", "output", "ok", "guess"]
     

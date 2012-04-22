@@ -1,8 +1,10 @@
 # encoding: utf-8
 require 'set'
 
-StuffClassifier::STOP_WORDS = {
-  "en" => Set.new([
+StuffClassifier::Tokenizer::TOKENIZER_PROPERTIES = {
+  "en" => {
+    "preprocessing_regexps" => {/['`]/ => ''},
+    "stop_word" => Set.new([
     'a', 'about', 'above', 'across', 'after', 'afterwards', 
     'again', 'against', 'all', 'almost', 'alone', 'along', 
     'already', 'also', 'although', 'always', 'am', 'among', 
@@ -56,7 +58,8 @@ StuffClassifier::STOP_WORDS = {
     'whoever', 'whole', 'whom', 'whose', 'why', 'will', 
     'with', 'within', 'without', 'would', 'yet', 'you', 'your', 'yours', 
     'yourself', 'yourselves'
-]),
+])
+},
 "fr" => Set.new(
 ["au",  "aux",  "avec",  "ce",  "ces",  "dans",  "de",  "des",  "du",  "elle",  "en",  "et",  "eux",
   "il",  "je",  "la",  "le",  "leur",  "lui",  "ma",  "mais",  "me",  "même",  "mes",  "moi",  "mon",
