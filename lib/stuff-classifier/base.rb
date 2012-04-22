@@ -1,9 +1,9 @@
 # encoding: utf-8
 
 class StuffClassifier::Base
-#  include StuffClassifier::Tokenizer
   attr_reader :name
   attr_writer :tokenizer
+  attr_accessor :language
   
   def initialize(name, opts={})
     purge_state = opts[:purge_state]

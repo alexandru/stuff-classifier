@@ -57,7 +57,7 @@ class StuffClassifier::Bayes < StuffClassifier::Base
   end
 
   def word_classification_detail(word)
-    p "ICI2"
+
     p "word_prob"
     result=self.categories.inject({}) do |h,cat| h[cat]=self.word_prob(word,cat);h end
     ap result
@@ -73,6 +73,8 @@ class StuffClassifier::Bayes < StuffClassifier::Base
     p "text_prob"
     result=categories.inject({}) do |h,cat| h[cat]=text_prob(word,cat);h end  
     ap result
+    
+    
   end
 
 end
