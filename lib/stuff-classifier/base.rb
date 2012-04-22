@@ -3,20 +3,22 @@
 class StuffClassifier::Base
 #  include StuffClassifier::Tokenizer
   attr_reader :name
+  attr_writer :tokenizer
   
-  def tokenizer
-    @tokenizer
-  end
   def initialize(name, opts={})
     purge_state = opts[:purge_state]
     
-    @tokenizer = StuffClassifier::Tokenizer.new(opts)
-
     @name = name
     @wcount = {}
     @ccount = {}
     @ignore_words = nil
+    @tokenizer = StuffClassifier::Tokenizer.new(opts)
 
+    # word weight evaluation
+    @weight = opts[:weight] || 1.0
+    @assumed_prob = opts[:assumed_prob] || 0.1
+
+    # storage
     @storage = opts[:storage] || StuffClassifier::Base.storage
     unless purge_state
       @storage.load_state(self)
@@ -71,8 +73,6 @@ class StuffClassifier::Base
 
   def word_weighted_average(word, cat, opts={})
     func = opts[:func]
-    weight = opts[:weight] || 1.0
-    assumed_prob = opts[:assumed_prob] || 0.5
 
     # calculate current probability
     basic_prob = func ? func.call(word, cat) : word_prob(word, cat)
@@ -82,7 +82,7 @@ class StuffClassifier::Base
     totals = categories.map{|c| word_count(word, c)}.inject(0){|s,c| s + c}
     
     # the final weighted average
-    (weight * assumed_prob + totals * basic_prob) / (weight + totals)
+    (@weight * @assumed_prob + totals * basic_prob) / (@weight + totals)
   end
 
   def save_state
