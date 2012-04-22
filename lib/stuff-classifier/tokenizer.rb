@@ -3,8 +3,8 @@
 require "lingua/stemmer"
 
 class StuffClassifier::Tokenizer
-  include StuffClassifier::tokenizer::TOKENIZER_PROPERTIES"
-  
+#  include StuffClassifier::Tokenizer::TOKENIZER_PROPERTIES
+  require  "stuff-classifier/tokenizer/tokenizer_properties"
   def initialize(opts={})
     if opts[:language]
       @language=opts[:language]

@@ -1,7 +1,5 @@
 # encoding: utf-8
 require 'set'
-module StuffClassifier::Tokenizer
-
 StuffClassifier::Tokenizer::TOKENIZER_PROPERTIES = {
   "en" => {
     "preprocessing_regexps" => {/['`]/ => ''},
@@ -79,4 +77,3 @@ StuffClassifier::Tokenizer::TOKENIZER_PROPERTIES = {
   "ils",  "les",  "leurs",  "quel",  "quels",  "quelle",  "quelles",  "sans",  "soi"
   ])
 }
-end
