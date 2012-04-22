@@ -12,7 +12,7 @@ class StuffClassifier::TfIdf < StuffClassifier::Base
   end
 
   def text_prob(text, cat)
-    each_word(text).map{|w| tf_idf(w, cat)}.inject(0){|s,p| s + p}
+    @tokenizer.each_word(text).map{|w| tf_idf(w, cat)}.inject(0){|s,p| s + p}
   end
 
   def cat_scores(text)
