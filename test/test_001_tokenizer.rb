@@ -2,7 +2,7 @@ require 'helper.rb'
 
 class Test001Tokenizer < TestBase
   before do
-    @tokenizer = StuffClassifier::Bayes.new("TEST")
+    @tokenizer = StuffClassifier::Tokenizer.new
   end
 
   def test_simple_tokens

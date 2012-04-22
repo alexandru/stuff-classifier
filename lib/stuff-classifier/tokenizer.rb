@@ -1,7 +1,9 @@
 # encoding: utf-8
 
 require "lingua/stemmer"
+
 class StuffClassifier::Tokenizer
+  include StuffClassifier::tokenizer::TOKENIZER_PROPERTIES"
   
   def initialize(opts={})
     if opts[:language]
