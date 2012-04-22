@@ -3,20 +3,20 @@
 require "lingua/stemmer"
 
 class StuffClassifier::Tokenizer
-#  include StuffClassifier::Tokenizer::TOKENIZER_PROPERTIES
   require  "stuff-classifier/tokenizer/tokenizer_properties"
+  
   def initialize(opts={})
-    if opts[:language]
-      @language=opts[:language]
-    else
-      @language="en"
-    end
+    @language = opts.key?(:language) ? opts[:language] : "en"
+    @properties = StuffClassifier::Tokenizer::TOKENIZER_PROPERTIES[@language]
+    
     @stemming = opts.key?(:stemming) ? opts[:stemming] : true
     if @stemming
       @stemmer = Lingua::Stemmer.new(:language => @language)
     end
-    @properties = StuffClassifier::Tokenizer::TOKENIZER_PROPERTIES[@language]
-    
+  end
+
+  def language
+    @language
   end
 
   def preprocessing_regexps=(value)
@@ -24,7 +24,7 @@ class StuffClassifier::Tokenizer
   end
 
   def preprocessing_regexps
-    @preprocessing_regexps || @properties["preprocessing_regexps"]
+    @preprocessing_regexps || @properties[:preprocessing_regexps]
   end
 
   def ignore_words=(value)
@@ -32,11 +32,7 @@ class StuffClassifier::Tokenizer
   end
 
   def ignore_words
-    @ignore_words || @properties["stop_word"]
-  end
-
-  def stemming=(value)
-    @stemming = value
+    @ignore_words || @properties[:stop_word]
   end
 
   def stemming?
@@ -49,17 +45,18 @@ class StuffClassifier::Tokenizer
 
     words = []
 
-    # Apply preprocessing regexps
-    if preprocessing_regexps
-      preprocessing_regexps.each { |regexp,replace_by| string.gsub!(regexp, replace_by) }
-    end
-    
     # tokenize string
     string.split("\n").each do |line|
-      line.gsub(/\p{Word}+/).each do |w|
-        next if w == '' || ignore_words.member?(w.downcase)
 
-        if stemming?
+      # Apply preprocessing regexps
+      if preprocessing_regexps
+        preprocessing_regexps.each { |regexp,replace_by| line.gsub!(regexp, replace_by) }
+      end
+
+      line.gsub(/\p{Word}+/).each do |w|
+          next if w == '' || ignore_words.member?(w.downcase)
+
+        if stemming? and stemable?(w)
           w = @stemmer.stem(w).downcase
           next if ignore_words.member?(w)
         else
@@ -73,4 +70,10 @@ class StuffClassifier::Tokenizer
     return words
   end
 
+private 
+
+  def stemable?(word)
+    word =~ /^\p{Alpha}+$/
+  end
+  
 end

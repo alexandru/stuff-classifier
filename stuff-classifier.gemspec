@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "turn", ">= 0.8.3"
   s.add_development_dependency "simplecov"
   s.add_development_dependency "awesome_print"
-  # s.add_development_dependency "rdoc", ">= 3.1"
+  s.add_development_dependency "ruby-debug19"
+
 end
 
