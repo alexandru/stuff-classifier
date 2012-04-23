@@ -36,18 +36,13 @@ class StuffClassifier::Base
     @word_list[word] ||= {}
 
     @word_list[word][:categories] ||= {}
-
     @word_list[word][:categories][category] ||= 0
     @word_list[word][:categories][category] += 1
 
     @word_list[word][:_total_word] ||= 0
     @word_list[word][:_total_word] += 1
 
-    
-    # Total word count
-    @word_list[:_total_word]||=0
-    @word_list[:_total_word]+=1
-
+  
     # words count by categroy
     @category_list[category] ||= {}
     @category_list[category][:_total_word] ||= 0
@@ -65,35 +60,45 @@ class StuffClassifier::Base
 
   end
 
-  # return number of time the word appears in a category
+  # return number of times the word appears in a category
   def word_count(word, category)
     return 0.0 unless @word_list[word] && @word_list[word][:categories] && @word_list[word][:categories][category]
     @word_list[word][:categories][category].to_f
   end
 
-  # return the number of time the word appears in all categories
+  # return the number of times the word appears in all categories
   def total_word_count(word)
     return 0.0 unless @word_list[word] && @word_list[word][:_total_word]
     @word_list[word][:_total_word].to_f
   end
 
+  # return the number of words in a categories
   def total_word_count_in_cat(cat)
-    p cat
-    p @category_list
     return 0.0 unless @category_list[cat] && @category_list[cat][:_total_word]
     @category_list[cat][:_total_word].to_f
   end
 
-  # return the number of categories
+  # return the number of training item 
   def total_count
     @training_count
   end
   
-  # return the training document count for a category
+  # return the number of training document for a category
   def cat_count(category)
     @category_list[category][:_count] ? @category_list[category][:_count].to_f : 0.0
   end
-  
+
+  # return the number of time categories in wich a word appear
+  def categories_with_word_count(word)
+    return 0 unless @word_list[word] && @word_list[word][:categories]
+    @word_list[word][:categories].length 
+  end  
+
+  # return the number of categories
+  def total_categories
+    categories.length
+  end
+
   def categories
     @category_list.keys
   end

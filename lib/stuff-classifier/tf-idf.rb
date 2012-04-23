@@ -4,15 +4,8 @@ class StuffClassifier::TfIdf < StuffClassifier::Base
     cat_nr = cat_count(cat)
 
     tf = 1.0 * word_cat_nr / cat_nr
-    
-    total_categories = categories.length
-    
-    if @word_list[word] && @word_list[word][:categories]
-      categories_with_word = @word_list[word][:categories].length 
-    else
-      categories_with_word = 0
-    end
-    idf = Math.log10((total_categories + 2) / (categories_with_word + 1.0))    
+        
+    idf = Math.log10((total_categories + 2) / (categories_with_word_count(word) + 1.0))    
     return tf * idf
   end
 
@@ -43,4 +36,17 @@ class StuffClassifier::TfIdf < StuffClassifier::Base
 
     max_prob > 0 ? best : default
   end
+  
+  def word_classification_detail(word)
+
+    p "tf_idf"
+    result=self.categories.inject({}) do |h,cat| h[cat]=self.tf_idf(word,cat);h end
+    ap result
+
+    p "text_prob"
+    result=categories.inject({}) do |h,cat| h[cat]=text_prob(word,cat);h end  
+    ap result    
+    
+  end
+  
 end

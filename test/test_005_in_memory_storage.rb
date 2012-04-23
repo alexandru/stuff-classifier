@@ -1,7 +1,7 @@
 require 'helper'
 
 
-class Test004InMemoryStorage < TestBase
+class Test005InMemoryStorage < TestBase
   before do
     StuffClassifier::Base.storage = StuffClassifier::InMemoryStorage.new
 

@@ -1,9 +1,10 @@
 require 'helper'
 
 
-class Test003TfIdfClassification < TestBase
+class Test002Base < TestBase
   before do
-    set_classifier StuffClassifier::TfIdf.new("Cats or Dogs")
+    @cls = StuffClassifier::Bayes.new("Cats or Dogs")
+    set_classifier @cls
     
     train :dog, "Dogs are awesome, cats too. I love my dog"
     train :cat, "Cats are more preferred by software developers. I never could stand cats. I have a dog"    
@@ -16,22 +17,17 @@ class Test003TfIdfClassification < TestBase
     train :dog, "My dog's favorite place to take a leak is the tree in front of our house"
   end
 
-  def test_for_cats 
-    should_be :cat, "This test is about cats."
-    should_be :cat, "I hate ..."
-    should_be :cat, "The most annoying animal on earth."
-    should_be :cat, "The preferred company of software developers."
-    should_be :cat, "My precious, my favorite!"
-    should_be :cat, "Kill that bird!"
+  def test_count 
+    assert @cls.total_count == 9
+    assert @cls.categories.map {|c| @cls.cat_count(c)}.inject(0){|s,count| s+count} == @cls.total_count
+
+    # compare word count sum to word by cat count sum 
+    assert @cls.word_list.map do |w| @cls.total_word_count(w[0]) end.inject(0) do |s,count| s+count end 
+            == @cls.categories.map {|c| @cls.total_word_count_in_cat(c)}.inject(0){|s,count| s+count}  
+
+    assert @cls.word_list.map do |w| @cls.total_word_count(w[0]) end.inject(0) do |s,count| s+count end == 58
+
+
   end
 
-  def test_for_dogs
-    should_be :dog, "This test is about dogs."
-    should_be :dog, "Cats or Dogs?" 
-    should_be :dog, "What pet will I love more?"    
-    should_be :dog, "Willy, where the heck are you?"
-    should_be :dog, "I like big buts and I cannot lie." 
-    should_be :dog, "Why is the front door of our house open?"
-    should_be :dog, "Who is eating my meat?"
-  end
 end

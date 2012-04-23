@@ -1,7 +1,7 @@
 require 'helper'
 
 
-class Test002NaiveBayesClassification < TestBase
+class Test003NaiveBayesClassification < TestBase
   before do
     set_classifier StuffClassifier::Bayes.new("Cats or Dogs")
     
