@@ -5,6 +5,13 @@ class StuffClassifier::Bayes < StuffClassifier::Base
 
   attr_writer :thresholds
 
+  # opts :
+  # language
+  # stemming : true | false
+  # weight
+  # assumed_prob
+  # storage
+  # purge_state ?
   def initialize(name, opts={})
     super(name, opts)
     @thresholds = {}
