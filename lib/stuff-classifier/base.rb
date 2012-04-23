@@ -14,7 +14,6 @@ class StuffClassifier::Base
     @category_count = {}
     @training_count=0
     
-
     @ignore_words = nil
     @tokenizer = StuffClassifier::Tokenizer.new(opts)
 
@@ -34,8 +33,10 @@ class StuffClassifier::Base
   def incr_word(word, category)
     @word_count[word] ||= {}
 
-    @word_count[word][category] ||= 0
-    @word_count[word][category] += 1
+    @word_count[word][:categories] ||= {}
+
+    @word_count[word][:categories][category] ||= 0
+    @word_count[word][:categories][category] += 1
 
     @word_count[word][:_total_word] ||= 0
     @word_count[word][:_total_word] += 1
@@ -64,7 +65,7 @@ class StuffClassifier::Base
 
   # return number of time the word appears in a category
   def word_count(word, category)
-    return 0.0 unless @word_count[word] && @word_count[word][category]
+    return 0.0 unless @word_count[word] && @word_count[word][:categories] && @word_count[word][:categories][category]
     @word_count[word][category].to_f
   end
 
