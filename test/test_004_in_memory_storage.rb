@@ -16,16 +16,16 @@ class Test004InMemoryStorage < TestBase
     StuffClassifier::Bayes.new("Cats or Dogs").instance_eval do
       test.assert @storage.instance_of?(StuffClassifier::InMemoryStorage),
         "@storage should be an instance of FileStorage"
-      test.assert @word_count.length > 0, "Word count should be persisted"
-      test.assert @category_count.length > 0, "Category count should be persisted"
+      test.assert @word_list.length > 0, "Word count should be persisted"
+      test.assert @category_list.length > 0, "Category count should be persisted"
     end
   end
 
   def test_purge_state
     test = self
     StuffClassifier::Bayes.new("Cats or Dogs", :purge_state => true).instance_eval do
-      test.assert @word_count.length == 0, "Word count should be purged"
-      test.assert @category_count.length == 0, "Category count should be purged"
+      test.assert @word_list.length == 0, "Word count should be purged"
+      test.assert @category_list.length == 0, "Category count should be purged"
     end
   end
 end

@@ -2,7 +2,9 @@
 
 class StuffClassifier::Base
   attr_reader :name
-  attr_writer :tokenizer
+  attr_reader :word_list
+
+  attr_accessor :tokenizer
   attr_accessor :language
   
   def initialize(name, opts={})
@@ -10,8 +12,8 @@ class StuffClassifier::Base
     
     @name = name
 
-    @word_count = {}
-    @category_count = {}
+    @word_list = {}
+    @category_list = {}
     @training_count=0
     
     @ignore_words = nil
@@ -31,32 +33,32 @@ class StuffClassifier::Base
   end
 
   def incr_word(word, category)
-    @word_count[word] ||= {}
+    @word_list[word] ||= {}
 
-    @word_count[word][:categories] ||= {}
+    @word_list[word][:categories] ||= {}
 
-    @word_count[word][:categories][category] ||= 0
-    @word_count[word][:categories][category] += 1
+    @word_list[word][:categories][category] ||= 0
+    @word_list[word][:categories][category] += 1
 
-    @word_count[word][:_total_word] ||= 0
-    @word_count[word][:_total_word] += 1
+    @word_list[word][:_total_word] ||= 0
+    @word_list[word][:_total_word] += 1
 
     
     # Total word count
-    @word_count[:_total_word]||=0
-    @word_count[:_total_word]+=1
+    @word_list[:_total_word]||=0
+    @word_list[:_total_word]+=1
 
     # words count by categroy
-    @category_count[category] ||= {}
-    @category_count[category][:_total_word] ||= 0
-    @category_count[category][:_total_word] += 1
+    @category_list[category] ||= {}
+    @category_list[category][:_total_word] ||= 0
+    @category_list[category][:_total_word] += 1
 
   end
 
   def incr_cat(category)
-    @category_count[category] ||= {}
-    @category_count[category][:_count] ||= 0
-    @category_count[category][:_count] += 1
+    @category_list[category] ||= {}
+    @category_list[category][:_count] ||= 0
+    @category_list[category][:_count] += 1
 
     @training_count ||= 0
     @training_count += 1 
@@ -65,21 +67,21 @@ class StuffClassifier::Base
 
   # return number of time the word appears in a category
   def word_count(word, category)
-    return 0.0 unless @word_count[word] && @word_count[word][:categories] && @word_count[word][:categories][category]
-    @word_count[word][category].to_f
+    return 0.0 unless @word_list[word] && @word_list[word][:categories] && @word_list[word][:categories][category]
+    @word_list[word][:categories][category].to_f
   end
 
   # return the number of time the word appears in all categories
   def total_word_count(word)
-    return 0.0 unless @word_count[word] && @word_count[word][:_total_word]
-    @word_count[word][:_total_word].to_f
+    return 0.0 unless @word_list[word] && @word_list[word][:_total_word]
+    @word_list[word][:_total_word].to_f
   end
 
   def total_word_count_in_cat(cat)
     p cat
-    p @category_count
-    return 0.0 unless @category_count[cat] && @category_count[cat][:_total_word]
-    @category_count[cat][:_total_word].to_f
+    p @category_list
+    return 0.0 unless @category_list[cat] && @category_list[cat][:_total_word]
+    @category_list[cat][:_total_word].to_f
   end
 
   # return the number of categories
@@ -89,11 +91,11 @@ class StuffClassifier::Base
   
   # return the training document count for a category
   def cat_count(category)
-    @category_count[category][:_count] ? @category_count[category][:_count].to_f : 0.0
+    @category_list[category][:_count] ? @category_list[category][:_count].to_f : 0.0
   end
   
   def categories
-    @category_count.keys
+    @category_list.keys
   end
 
   def train(category, text)
