@@ -41,26 +41,18 @@ class StuffClassifier::Bayes < StuffClassifier::Base
 
   def classify(text, default=nil)
     # Find the category with the highest probability
-    max_prob = @max_prob
+    max_prob = 0.0
     best = nil
     
     scores = cat_scores(text)
-
-    #we should refactor it. Two times the same loop?
-    scores.each do |score|
-      cat, prob = score
-      if prob > max_prob
-        max_prob = prob
-        best = cat
-      end
-    end
-
-    return default unless best
+    best, max_prob = scores.max_by { |k,v| v }
+    #return default unless best
     threshold = @thresholds[best] || 1.0
 
+    return default if max_prob < @max_prob or best.nil?
+
     #we should refactor it. Two times the same loop?
-    scores.each do |score|
-      cat, prob = score
+    scores.each do |cat,prob|
       next if cat == best
       return default if prob * threshold > max_prob
     end
