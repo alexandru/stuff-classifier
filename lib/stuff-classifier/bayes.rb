@@ -45,6 +45,8 @@ class StuffClassifier::Bayes < StuffClassifier::Base
     best = nil
     
     scores = cat_scores(text)
+
+    #we should refactor it. Two times the same loop?
     scores.each do |score|
       cat, prob = score
       if prob > max_prob
@@ -56,13 +58,14 @@ class StuffClassifier::Bayes < StuffClassifier::Base
     return default unless best
     threshold = @thresholds[best] || 1.0
 
+    #we should refactor it. Two times the same loop?
     scores.each do |score|
       cat, prob = score
       next if cat == best
       return default if prob * threshold > max_prob
     end
 
-    return best
+    best 
   end
 
   def word_classification_detail(word)
