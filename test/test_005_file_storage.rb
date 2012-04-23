@@ -28,8 +28,8 @@ class Test005FileStorage < TestBase
     StuffClassifier::Bayes.new("Cats or Dogs").instance_eval do
       test.assert @storage.instance_of?(StuffClassifier::FileStorage),
         "@storage should be an instance of FileStorage"
-      test.assert @wcount.length > 0, "Word count should be persisted"
-      test.assert @ccount.length > 0, "Category count should be persisted"
+      test.assert @word_count.length > 0, "Word count should be persisted"
+      test.assert @category_count.length > 0, "Category count should be persisted"
     end
   end
 
@@ -47,8 +47,8 @@ class Test005FileStorage < TestBase
     StuffClassifier::Bayes.new("Cats or Dogs", :purge_state => true).instance_eval do
       test.assert @storage.instance_of?(StuffClassifier::FileStorage),
         "@storage should be an instance of FileStorage"
-      test.assert @wcount.length == 0, "Word count should be purged"
-      test.assert @ccount.length == 0, "Category count should be purged"
+      test.assert @word_count.length == 0, "Word count should be purged"
+      test.assert @category_count.length == 0, "Category count should be purged"
     end
   end
 end

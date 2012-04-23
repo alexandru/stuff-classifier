@@ -8,19 +8,22 @@ module StuffClassifier
 
     def load_state(classifier)
       if @storage.key? classifier.name
-        _wcount, _ccount = @storage[classifier.name]
+        _word_count, _category_count,_word_total,_category_total = @storage[classifier.name]
         classifier.instance_eval do
-          @wcount = _wcount
-          @ccount = _ccount
+          @word_count = _word_count
+          @category_count = _category_count
+
+          @word_total = _word_total
+          @category_total = _category_total
         end
       end
     end
 
     def save_state(classifier)
       name = classifier.name
-      wcount = classifier.instance_variable_get :@wcount
-      ccount = classifier.instance_variable_get :@ccount
-      @storage[name] = [wcount, ccount]
+      word_count = classifier.instance_variable_get :@word_count
+      category_count = classifier.instance_variable_get :@category_count
+      @storage[name] = [word_count, category_count]
     end
 
     def purge_state(classifier)
@@ -40,19 +43,19 @@ module StuffClassifier
       end
 
       if @storage.key? classifier.name
-        _wcount, _ccount = @storage[classifier.name]
+        _word_count, _category_count = @storage[classifier.name]
         classifier.instance_eval do
-          @wcount = _wcount
-          @ccount = _ccount
+          @word_count = _word_count
+          @category_count = _category_count
         end
       end
     end
 
     def save_state(classifier)
       name = classifier.name
-      wcount = classifier.instance_variable_get :@wcount
-      ccount = classifier.instance_variable_get :@ccount
-      @storage[name] = [wcount, ccount]
+      word_count = classifier.instance_variable_get :@word_count
+      category_count = classifier.instance_variable_get :@category_count
+      @storage[name] = [word_count, category_count]
       _write_to_file
     end
 

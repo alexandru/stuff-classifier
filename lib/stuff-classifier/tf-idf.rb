@@ -5,7 +5,7 @@ class StuffClassifier::TfIdf < StuffClassifier::Base
     tf = 1.0 * word_cat_nr / cat_nr
     
     total_categories = categories.length
-    categories_with_word = (@wcount[word] || []).length
+    categories_with_word = (@word_count[word] || []).length
 
     idf = Math.log10((total_categories + 2) / (categories_with_word + 1.0))    
     return tf * idf
