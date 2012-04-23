@@ -1,7 +1,7 @@
 require 'helper'
 
 
-class Test005FileStorage < TestBase
+class Test006FileStorage < TestBase
   before do
     @storage_path = "/tmp/test_classifier.db"
     @storage = StuffClassifier::FileStorage.new(@storage_path)
