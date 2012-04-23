@@ -19,14 +19,19 @@ class Test002Base < TestBase
 
   def test_count 
     assert @cls.total_count == 9
-    assert @cls.categories.map {|c| @cls.cat_count(c)}.inject(0){|s,count| s+count} == @cls.total_count
+    assert @cls.categories.map {|c| @cls.cat_count(c)}.inject(0){|s,count| s+count} == 9
+    
 
     # compare word count sum to word by cat count sum 
-    assert @cls.word_list.map do |w| @cls.total_word_count(w[0]) end.inject(0) do |s,count| s+count end 
-            == @cls.categories.map {|c| @cls.total_word_count_in_cat(c)}.inject(0){|s,count| s+count}  
+    assert @cls.word_list.map  {|w| @cls.total_word_count(w[0]) }.inject(0)  {|s,count| s+count}  == 58
+    assert @cls.categories.map {|c| @cls.total_word_count_in_cat(c) }.inject(0){|s,count| s+count}  == 58
 
-    assert @cls.word_list.map do |w| @cls.total_word_count(w[0]) end.inject(0) do |s,count| s+count end == 58
+    # test word count by categories
+    assert @cls.word_list.map {|w| @cls.word_count(w[0],:dog) }.inject(0)  {|s,count| s+count}  == 29
+    assert @cls.word_list.map {|w| @cls.word_count(w[0],:cat) }.inject(0)  {|s,count| s+count}  == 29
 
+    # for all categories
+    assert @cls.categories.map {|c| @cls.word_list.map {|w| @cls.word_count(w[0],:cat) }.inject(0) {|s,count| s+count} }.inject(0){|s,count| s+count}  == 58
 
   end
 
