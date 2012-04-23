@@ -14,6 +14,8 @@ class StuffClassifier::Bayes < StuffClassifier::Base
   # purge_state ?
   def initialize(name, opts={})
     super(name, opts)
+    #max_prob for classify
+    @max_prob = opts[:max_prob].to_f || 0.0
     @thresholds = {}
   end
 
@@ -39,7 +41,7 @@ class StuffClassifier::Bayes < StuffClassifier::Base
 
   def classify(text, default=nil)
     # Find the category with the highest probability
-    max_prob = 0.0
+    max_prob = @max_prob
     best = nil
     
     scores = cat_scores(text)
