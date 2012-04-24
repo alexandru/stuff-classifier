@@ -46,6 +46,7 @@ class StuffClassifier::Bayes < StuffClassifier::Base
     
     scores = cat_scores(text)
     best, max_prob = scores.max_by { |k,v| v }
+    #puts "#{best} -> #{max_prob}"
     #return default unless best
     threshold = @thresholds[best] || 1.0
 
