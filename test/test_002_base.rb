@@ -18,7 +18,7 @@ class Test002Base < TestBase
   end
 
   def test_count 
-    assert @cls.total_count == 9
+    assert @cls.total_cat_count == 9
     assert @cls.categories.map {|c| @cls.cat_count(c)}.inject(0){|s,count| s+count} == 9
     
 
@@ -31,7 +31,7 @@ class Test002Base < TestBase
     assert @cls.word_list.map {|w| @cls.word_count(w[0],:cat) }.inject(0)  {|s,count| s+count}  == 29
 
     # for all categories
-    assert @cls.categories.map {|c| @cls.word_list.map {|w| @cls.word_count(w[0],:cat) }.inject(0) {|s,count| s+count} }.inject(0){|s,count| s+count}  == 58
+    assert @cls.categories.map {|c| @cls.word_list.map {|w| @cls.word_count(w[0],c) }.inject(0) {|s,count| s+count} }.inject(0){|s,count| s+count}  == 58
 
   end
 
