@@ -22,7 +22,7 @@ class StuffClassifier::Base
     # word weight evaluation
     @weight = opts[:weight] || 1.0
     @assumed_prob = opts[:assumed_prob] || 0.1
-
+    @max_prob = opts[:max_prob].to_f || 0.0
     # storage
     @storage = opts[:storage] || StuffClassifier::Base.storage
     unless purge_state
@@ -140,8 +140,8 @@ class StuffClassifier::Base
       @storage
     end
 
-    def open(name)
-      inst = self.new(name)
+    def open(name,opts = {})
+      inst = self.new(name,opts)
       if block_given?
         yield inst
         inst.save_state
