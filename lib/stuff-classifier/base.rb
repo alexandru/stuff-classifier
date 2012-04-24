@@ -79,7 +79,7 @@ class StuffClassifier::Base
   end
 
   # return the number of training item 
-  def total_count
+  def total_cat_count
     @training_count
   end
   

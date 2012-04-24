@@ -39,7 +39,7 @@ module StuffClassifier
 
     def load_state(classifier)
       if @storage.length == 0 && File.exists?(@path)
-        @storage = MessagePack.unpack(File.read(@path))
+        @storage = Marshal.load(File.read(@path))
       end
 
       if @storage.key? classifier.name
@@ -69,7 +69,7 @@ module StuffClassifier
     def _write_to_file
       File.open(@path, 'w') do |fh|
         fh.flock(File::LOCK_EX)
-        fh.write(@storage.to_msgpack)
+        fh.write(Marshal.dump(@storage))
       end
     end
   end

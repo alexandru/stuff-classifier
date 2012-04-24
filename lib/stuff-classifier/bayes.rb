@@ -24,7 +24,7 @@ class StuffClassifier::Bayes < StuffClassifier::Base
   end
 
   def text_prob(text, category)
-    cat_prob = cat_count(category) / total_count
+    cat_prob = cat_count(category) / total_cat_count
     doc_prob = doc_prob(text, category)
     cat_prob * doc_prob
   end
