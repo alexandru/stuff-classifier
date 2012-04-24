@@ -6,7 +6,7 @@ class Test008NaiveBayesClassificationWithThresholdWithFileStore < TestBase
     @storage_path = "/tmp/test_classifier.db"
     @storage = StuffClassifier::FileStorage.new(@storage_path)
     StuffClassifier::Base.storage = @storage
-    StuffClassifier::Bayes.open("Cats or Dogs") do |cls|
+    StuffClassifier::Bayes.open("Cats or Dogs",:max_prob=>0.01) do |cls|
       cls.train :dog, "Dogs are Awesome, but in Germany they do Wuff wuff"
       cls.train :cat, "Cats are ok, but too independent"
       cls.train :dog, "Dogs in Brasil do Au Au"
@@ -15,7 +15,7 @@ class Test008NaiveBayesClassificationWithThresholdWithFileStore < TestBase
     StuffClassifier::Base.storage = StuffClassifier::FileStorage.new(@storage_path)
   end
   def test_for_threshold
-    @classifier = StuffClassifier::Bayes.new("Cats or Dogs",:max_prob=>0.05)
+    @classifier = StuffClassifier::Bayes.new("Cats or Dogs",:max_prob=>0.01)
     assert @classifier.classify("Oinc","Nothing Found"), "Nothing Found"
     assert @classifier.classify("Au"),:dog
   end

@@ -140,8 +140,8 @@ class StuffClassifier::Base
       @storage
     end
 
-    def open(name)
-      inst = self.new(name)
+    def open(name,opts = {})
+      inst = self.new(name,opts)
       if block_given?
         yield inst
         inst.save_state
