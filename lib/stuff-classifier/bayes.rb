@@ -49,15 +49,20 @@ class StuffClassifier::Bayes < StuffClassifier::Base
     #return default unless best
     threshold = @thresholds[best] || 1.0
 
-    return default if max_prob < @max_prob or best.nil?
+    #return default if max_prob < @max_prob or best.nil?
 
     #we should refactor it. Two times the same loop?
-    scores.each do |cat,prob|
-      next if cat == best
-      return default if prob * threshold > max_prob
-    end
+    #scores.each do |cat,prob|
+    #  next if cat == best
+    #  return default if prob * threshold > max_prob
+    #end
 
-    best 
+    #scores.reject { |cat, prob| cat == best }.each do |cat,prob|
+    #  return default if prob * threshold > max_prob
+    #end
+    #
+    max_prob * threshold > @max_prob ? best : default
+    #best 
   end
 
   def word_classification_detail(word)
