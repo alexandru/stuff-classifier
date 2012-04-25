@@ -21,9 +21,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "ruby-stemmer"
   s.add_runtime_dependency "sqlite3"
   s.add_runtime_dependency "sequel"
-  # Msgpack has a habbit of changing the format, so I'm setting its
-  # version in stone
-  s.add_runtime_dependency "msgpack", "= 0.4.6" 
 
 
   s.add_development_dependency "bundler"
