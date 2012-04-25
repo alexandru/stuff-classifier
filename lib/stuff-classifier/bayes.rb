@@ -1,17 +1,39 @@
 # encoding: utf-8
 
 class StuffClassifier::Bayes < StuffClassifier::Base
-  # http://en.wikipedia.org/wiki/Naive_Bayes_classifier
+  attr_accessor :weight
+  attr_accessor :assumed_prob
 
-  # opts :
-  # language
-  # stemming : true | false
-  # weight
-  # assumed_prob
-  # storage
-  # purge_state ?
+
+  # http://en.wikipedia.org/wiki/Naive_Bayes_classifier
+  extend StuffClassifier::Storage::ActAsStorable
+  storable :weight,:assumed_prob
+
   def initialize(name, opts={})
     super(name, opts)
+    @weight = opts[:weight] || 1.0
+    @assumed_prob = opts[:assumed_prob] || 0.1
+  end
+
+  def word_prob(word, cat)
+    total_words_in_cat = total_word_count_in_cat(cat)
+    return 0.0 if total_words_in_cat == 0
+    word_count(word, cat).to_f / total_words_in_cat
+  end
+
+
+  def word_weighted_average(word, cat, opts={})
+    func = opts[:func]
+
+    # calculate current probability
+    basic_prob = func ? func.call(word, cat) : word_prob(word, cat)
+    
+    # count the number of times this word has appeared in all
+    # categories
+    totals = total_word_count(word)
+    
+    # the final weighted average
+    (@weight * @assumed_prob + totals * basic_prob) / (@weight + totals)
   end
 
   def doc_prob(text, category)
@@ -34,38 +56,6 @@ class StuffClassifier::Bayes < StuffClassifier::Base
     probs.map{|k,v| [k,v]}.sort{|a,b| b[1] <=> a[1]}
   end
 
-  def classify(text, default=nil)
-    # Find the category with the highest probability
-    max_prob = @min_prob
-    best = nil
-
-    scores = cat_scores(text)
-    scores.each do |score|
-      cat, prob = score
-      if prob > max_prob
-        max_prob = prob
-        best = cat
-      end
-    end
-    
-    # Return the default category in case the threshold condition was
-    # not met. For example, if the threshold for :spam is 1.2
-    #
-    #    :spam => 0.73, :ham => 0.40  (OK)
-    #    :spam => 0.80, :ham => 0.70  (Fail, :ham is too close)
-
-    return default unless best
-
-    threshold = @thresholds[best] || 1.0
-
-    scores.each do |score|
-      cat, prob = score
-      next if cat == best
-      return default if prob * threshold > max_prob
-    end
-
-    return best    
-  end
 
   def word_classification_detail(word)
 

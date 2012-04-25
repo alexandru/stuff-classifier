@@ -49,32 +49,27 @@ class Test006FileStorage < TestBase
   end
 
   def test_for_persistance    
-    assert ! @storage.equal?(StuffClassifier::Base.storage),
-      "Storage instance should not be the same"
+    assert ! @storage.equal?(StuffClassifier::Base.storage),"Storage instance should not be the same"
 
     test = self
     StuffClassifier::Bayes.new("Cats or Dogs").instance_eval do
-      test.assert @storage.instance_of?(StuffClassifier::FileStorage),
-        "@storage should be an instance of FileStorage"
+      test.assert @storage.instance_of?(StuffClassifier::FileStorage),"@storage should be an instance of FileStorage"
       test.assert @word_list.length > 0, "Word count should be persisted"
       test.assert @category_list.length > 0, "Category count should be persisted"
     end
   end
 
   def test_file_created
-    assert File.exist?(@storage_path), 
-      "File #@storage_path should exist"
+    assert File.exist?(@storage_path), "File #@storage_path should exist"
 
     content = File.read(@storage_path)
-    assert content.length > 100, 
-      "Serialized content should have more than 100 chars"
+    assert content.length > 100, "Serialized content should have more than 100 chars"
   end
 
   def test_purge_state
     test = self
     StuffClassifier::Bayes.new("Cats or Dogs", :purge_state => true).instance_eval do
-      test.assert @storage.instance_of?(StuffClassifier::FileStorage),
-        "@storage should be an instance of FileStorage"
+      test.assert @storage.instance_of?(StuffClassifier::FileStorage),"@storage should be an instance of FileStorage"
       test.assert @word_list.length == 0, "Word count should be purged"
       test.assert @category_list.length == 0, "Category count should be purged"
     end
