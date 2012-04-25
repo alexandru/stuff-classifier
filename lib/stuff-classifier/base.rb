@@ -1,35 +1,52 @@
 # encoding: utf-8
 
 class StuffClassifier::Base
+  extend StuffClassifier::Storage::ActAsStorable
   attr_reader :name
   attr_reader :word_list
+  attr_reader :category_list
+  attr_reader :training_count
 
   attr_accessor :tokenizer
   attr_accessor :language
   
+  attr_accessor :thresholds
+  attr_accessor :weight
+  attr_accessor :assumed_prob
+  attr_accessor :min_prob
+
+
+  storable :version,:word_list,:category_list,:training_count,:thresholds,:weight,:assumed_prob,:min_prob
+    
   def initialize(name, opts={})
-    purge_state = opts[:purge_state]
+    @version = StuffClassifier::VERSION
     
     @name = name
 
+    # This values are nil or loading from storage
     @word_list = {}
     @category_list = {}
     @training_count=0
-    
-    @ignore_words = nil
-    @tokenizer = StuffClassifier::Tokenizer.new(opts)
-
-    # word weight evaluation
-    @weight = opts[:weight] || 1.0
-    @assumed_prob = opts[:assumed_prob] || 0.1
 
     # storage
+    purge_state = opts[:purge_state]
     @storage = opts[:storage] || StuffClassifier::Base.storage
     unless purge_state
       @storage.load_state(self)
     else
       @storage.purge_state(self)
     end
+
+    # This value can be overrided during initialization or during load_state
+    @thresholds = opts[:thresholds] || {}
+    @weight = opts[:weight] || 1.0
+    @assumed_prob = opts[:assumed_prob] || 0.1
+    @min_prob = opts[:min_prob] || 0.0
+    
+
+    @ignore_words = nil
+    @tokenizer = StuffClassifier::Tokenizer.new(opts)
+    
   end
 
   def incr_word(word, category)

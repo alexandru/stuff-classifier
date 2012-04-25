@@ -34,6 +34,10 @@ class TestBase < MiniTest::Unit::TestCase
   def set_classifier(instance)
     @classifier = instance
   end
+  def classifier
+    @classifier
+  end
+
 
   def train(category, value)
     @classifier.train(category, value)
