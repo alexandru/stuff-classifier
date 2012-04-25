@@ -1,39 +1,63 @@
-require 'msgpack'
-
+# encoding : UTF-8
 module StuffClassifier
-  class InMemoryStorage
-    def initialize
+
+  class Storage
+    module ActAsStorable
+        def storable(*to_store)
+          @to_store = to_store
+        end
+        def to_store
+          @to_store
+        end
+    end
+
+    attr_accessor :storage
+
+    def initialize(*opts)
       @storage = {}
     end
 
-    def load_state(classifier)
+    def storage_to_classifier(classifier)
       if @storage.key? classifier.name
-        _word_list, _category_list, _training_count = @storage[classifier.name]
-        classifier.instance_eval do
-          @word_list = _word_list
-          @category_list = _category_list
-          @training_count=_training_count
+        @storage[classifier.name].each do |var,value|
+          classifier.instance_variable_set "@#{var}",value
         end
       end
     end
 
-    def save_state(classifier)
-      name = classifier.name
-      word_list = classifier.instance_variable_get :@word_list
-      category_list = classifier.instance_variable_get :@category_list
-      training_count = classifier.instance_variable_get :@training_count
+    def classifier_to_storage(classifier)
+      to_store = classifier.class.superclass.to_store
+      @storage[classifier.name] =  to_store.inject({}) {|h,var| h[var] = classifier.instance_variable_get("@#{var}");h}
+    end
+    
+    def clear_storage(classifier)
+      @storage.delete(classifier.name)      
+    end
 
-      @storage[name] = [word_list, category_list, training_count]
+  end
+
+  class InMemoryStorage < Storage
+    def initialize
+      super
+    end
+
+    def load_state(classifier)
+      storage_to_classifier(classifier)
+    end
+
+    def save_state(classifier)
+      classifier_to_storage(classifier)
     end
 
     def purge_state(classifier)
-      @storage.delete(classifier.name)
+      clear_storage(classifier)
     end
+
   end
 
-  class FileStorage
+  class FileStorage < Storage
     def initialize(path)
-      @storage = {}
+      super
       @path = path
     end
 
@@ -41,28 +65,16 @@ module StuffClassifier
       if @storage.length == 0 && File.exists?(@path)
         @storage = Marshal.load(File.read(@path))
       end
-
-      if @storage.key? classifier.name
-        _word_list, _category_list, _training_count = @storage[classifier.name]
-        classifier.instance_eval do
-          @word_list = _word_list
-          @category_list = _category_list
-          @training_count=_training_count          
-        end
-      end
+      storage_to_classifier(classifier)
     end
 
     def save_state(classifier)
-      name = classifier.name
-      word_list = classifier.instance_variable_get :@word_list
-      category_list = classifier.instance_variable_get :@category_list
-      training_count = classifier.instance_variable_get :@training_count
-      @storage[name] = [word_list, category_list, training_count]
+      classifier_to_storage(classifier)
       _write_to_file
     end
 
     def purge_state(classifier)
-      @storage.delete(classifier.name)
+      clear_storage(classifier)
       _write_to_file
     end
 
@@ -72,5 +84,6 @@ module StuffClassifier
         fh.write(Marshal.dump(@storage))
       end
     end
+
   end
 end

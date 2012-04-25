@@ -1,6 +1,10 @@
 module StuffClassifier
   autoload :VERSION,    'stuff-classifier/version'
 
+  autoload :Storage, 'stuff-classifier/storage'
+  autoload :InMemoryStorage, 'stuff-classifier/storage'
+  autoload :FileStorage,     'stuff-classifier/storage'
+
   autoload :Tokenizer,  'stuff-classifier/tokenizer'
   autoload :TOKENIZER_PROPERTIES, 'stuff-classifier/tokenizer/tokenizer_properties'
 
@@ -8,6 +12,4 @@ module StuffClassifier
   autoload :Bayes,      'stuff-classifier/bayes'
   autoload :TfIdf,      'stuff-classifier/tf-idf'
 
-  autoload :InMemoryStorage, 'stuff-classifier/storage'
-  autoload :FileStorage,     'stuff-classifier/storage'
 end

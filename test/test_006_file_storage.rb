@@ -25,7 +25,7 @@ class Test006FileStorage < TestBase
   end
 
   def teardown
-#    File.unlink @storage_path if File.exists? @storage_path
+    File.unlink @storage_path if File.exists? @storage_path
   end
 
   def test_result    
