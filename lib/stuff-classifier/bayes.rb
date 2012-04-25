@@ -3,8 +3,6 @@
 class StuffClassifier::Bayes < StuffClassifier::Base
   # http://en.wikipedia.org/wiki/Naive_Bayes_classifier
 
-  attr_writer :thresholds
-
   # opts :
   # language
   # stemming : true | false
@@ -14,7 +12,6 @@ class StuffClassifier::Bayes < StuffClassifier::Base
   # purge_state ?
   def initialize(name, opts={})
     super(name, opts)
-    @thresholds = {}
   end
 
   def doc_prob(text, category)
@@ -39,9 +36,9 @@ class StuffClassifier::Bayes < StuffClassifier::Base
 
   def classify(text, default=nil)
     # Find the category with the highest probability
-    max_prob = 0.0
+    max_prob = @min_prob
     best = nil
-    
+
     scores = cat_scores(text)
     scores.each do |score|
       cat, prob = score
@@ -50,8 +47,15 @@ class StuffClassifier::Bayes < StuffClassifier::Base
         best = cat
       end
     end
+    
+    # Return the default category in case the threshold condition was
+    # not met. For example, if the threshold for :spam is 1.2
+    #
+    #    :spam => 0.73, :ham => 0.40  (OK)
+    #    :spam => 0.80, :ham => 0.70  (Fail, :ham is too close)
 
     return default unless best
+
     threshold = @thresholds[best] || 1.0
 
     scores.each do |score|
@@ -60,7 +64,7 @@ class StuffClassifier::Bayes < StuffClassifier::Base
       return default if prob * threshold > max_prob
     end
 
-    return best
+    return best    
   end
 
   def word_classification_detail(word)

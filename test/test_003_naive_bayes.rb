@@ -34,4 +34,23 @@ class Test003NaiveBayesClassification < TestBase
     should_be :dog, "Why is the front door of our house open?"
     should_be :dog, "Who ate my meat?"
   end
+
+  def test_min_prob
+    classifier.min_prob = 0.001
+    should_be :cat, "This test is about cats."
+    should_be :cat, "I hate ..."
+    should_be nil, "The most annoying animal on earth."
+    should_be nil, "The preferred company of software developers."
+    should_be :cat, "My precious, my favorite!"
+    should_be :cat, "Kill that bird!"
+    should_be :dog, "This test is about dogs."
+    should_be :dog, "Cats or Dogs?" 
+    should_be :dog, "What pet will I love more?"    
+    should_be :dog, "Willy, where the heck are you?"
+    should_be nil, "I like big buts and I cannot lie." 
+    should_be nil, "Why is the front door of our house open?"
+    should_be :dog, "Who ate my meat?"
+  end
+
+
 end
