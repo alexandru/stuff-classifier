@@ -7,7 +7,7 @@ module StuffClassifier
           @to_store = to_store
         end
         def to_store
-          @to_store
+          @to_store || []
         end
     end
 
@@ -26,7 +26,7 @@ module StuffClassifier
     end
 
     def classifier_to_storage(classifier)
-      to_store = classifier.class.superclass.to_store
+      to_store = classifier.class.to_store + classifier.class.superclass.to_store
       @storage[classifier.name] =  to_store.inject({}) {|h,var| h[var] = classifier.instance_variable_get("@#{var}");h}
     end
     

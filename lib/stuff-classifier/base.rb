@@ -11,13 +11,19 @@ class StuffClassifier::Base
   attr_accessor :language
   
   attr_accessor :thresholds
-  attr_accessor :weight
-  attr_accessor :assumed_prob
   attr_accessor :min_prob
 
 
-  storable :version,:word_list,:category_list,:training_count,:thresholds,:weight,:assumed_prob,:min_prob
+  storable :version,:word_list,:category_list,:training_count,:thresholds,:min_prob
     
+  # opts :
+  # language
+  # stemming : true | false
+  # weight
+  # assumed_prob
+  # storage
+  # purge_state ?
+
   def initialize(name, opts={})
     @version = StuffClassifier::VERSION
     
@@ -39,8 +45,6 @@ class StuffClassifier::Base
 
     # This value can be set during initialization or overrided after load_state
     @thresholds = opts[:thresholds] || {}
-    @weight = opts[:weight] || 1.0
-    @assumed_prob = opts[:assumed_prob] || 0.1
     @min_prob = opts[:min_prob] || 0.0
     
 
@@ -116,33 +120,49 @@ class StuffClassifier::Base
     categories.length
   end
 
+  # return categories list
   def categories
     @category_list.keys
   end
 
+  # train the classifier
   def train(category, text)
     @tokenizer.each_word(text) {|w| incr_word(w, category) }
     incr_cat(category)
   end
 
-  def word_prob(word, cat)
-    total_words_in_cat = total_word_count_in_cat(cat)
-    return 0.0 if total_words_in_cat == 0
-    word_count(word, cat).to_f / total_words_in_cat
-  end
+  # classify a text
+  def classify(text, default=nil)
+    # Find the category with the highest probability
+    max_prob = @min_prob
+    best = nil
 
-  def word_weighted_average(word, cat, opts={})
-    func = opts[:func]
+    scores = cat_scores(text)
+    scores.each do |score|
+      cat, prob = score
+      if prob > max_prob
+        max_prob = prob
+        best = cat
+      end
+    end
+    
+    # Return the default category in case the threshold condition was
+    # not met. For example, if the threshold for :spam is 1.2
+    #
+    #    :spam => 0.73, :ham => 0.40  (OK)
+    #    :spam => 0.80, :ham => 0.70  (Fail, :ham is too close)
 
-    # calculate current probability
-    basic_prob = func ? func.call(word, cat) : word_prob(word, cat)
-    
-    # count the number of times this word has appeared in all
-    # categories
-    totals = total_word_count(word)
-    
-    # the final weighted average
-    (@weight * @assumed_prob + totals * basic_prob) / (@weight + totals)
+    return default unless best
+
+    threshold = @thresholds[best] || 1.0
+
+    scores.each do |score|
+      cat, prob = score
+      next if cat == best
+      return default if prob * threshold > max_prob
+    end
+
+    return best    
   end
 
   def save_state
