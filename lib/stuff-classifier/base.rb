@@ -23,7 +23,7 @@ class StuffClassifier::Base
     
     @name = name
 
-    # This values are nil or loading from storage
+    # This values are nil or are loaded from storage
     @word_list = {}
     @category_list = {}
     @training_count=0
@@ -37,7 +37,7 @@ class StuffClassifier::Base
       @storage.purge_state(self)
     end
 
-    # This value can be overrided during initialization or during load_state
+    # This value can be set during initialization or overrided after load_state
     @thresholds = opts[:thresholds] || {}
     @weight = opts[:weight] || 1.0
     @assumed_prob = opts[:assumed_prob] || 0.1
