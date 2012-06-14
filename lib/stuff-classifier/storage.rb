@@ -63,7 +63,8 @@ module StuffClassifier
 
     def load_state(classifier)
       if @storage.length == 0 && File.exists?(@path)
-        @storage = Marshal.load(File.read(@path))
+        data = File.open(@path, 'rb') { |f| f.read }
+        @storage = Marshal.load(data)
       end
       storage_to_classifier(classifier)
     end
@@ -79,7 +80,7 @@ module StuffClassifier
     end
 
     def _write_to_file
-      File.open(@path, 'w') do |fh|
+      File.open(@path, 'wb') do |fh|
         fh.flock(File::LOCK_EX)
         fh.write(Marshal.dump(@storage))
       end
