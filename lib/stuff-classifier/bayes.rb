@@ -61,19 +61,19 @@ class StuffClassifier::Bayes < StuffClassifier::Base
 
     p "word_prob"
     result=self.categories.inject({}) do |h,cat| h[cat]=self.word_prob(word,cat);h end
-    ap result
+    p result
 
     p "word_weighted_average"
     result=categories.inject({}) do |h,cat| h[cat]=word_weighted_average(word,cat);h end  
-    ap result
+    p result
 
     p "doc_prob"
     result=categories.inject({}) do |h,cat| h[cat]=doc_prob(word,cat);h end  
-    ap result
+    p result
 
     p "text_prob"
     result=categories.inject({}) do |h,cat| h[cat]=text_prob(word,cat);h end  
-    ap result
+    p result
     
     
   end
