@@ -109,7 +109,17 @@ implemented:
 
 - in memory (by default)
 - on disk
+- Redis
 - (coming soon) in a RDBMS
+
+To persist the data in Redis, you can do this:
+```ruby
+# defaults to redis running on localhost on default port
+store = StuffClassifier::RedisStorage.new(@key)
+
+# pass in connection args
+store = StuffClassifier::RedisStorage.new(@key, {host:'my.redis.server.com', port: 4829})
+```
 
 To persist the data on disk, you can do this:
 
