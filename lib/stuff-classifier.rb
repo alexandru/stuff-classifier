@@ -4,6 +4,7 @@ module StuffClassifier
   autoload :Storage, 'stuff-classifier/storage'
   autoload :InMemoryStorage, 'stuff-classifier/storage'
   autoload :FileStorage,     'stuff-classifier/storage'
+  autoload :RedisStorage, 'stuff-classifier/storage'
 
   autoload :Tokenizer,  'stuff-classifier/tokenizer'
   autoload :TOKENIZER_PROPERTIES, 'stuff-classifier/tokenizer/tokenizer_properties'

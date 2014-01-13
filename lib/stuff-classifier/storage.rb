@@ -87,4 +87,36 @@ module StuffClassifier
     end
 
   end
+
+  class RedisStorage < Storage
+    def initialize(key, redis_options=nil)
+      super
+      @key = key
+      @redis = Redis.new(redis_options || {})
+    end
+
+    def load_state(classifier)
+      if @storage.length == 0 && @redis.exists(@key)
+        data = @redis.get(@key)
+        @storage = Marshal.load(data)
+      end
+      storage_to_classifier(classifier)
+    end
+
+    def save_state(classifier)
+      classifier_to_storage(classifier)
+      _write_to_redis
+    end
+
+    def purge_state(classifier)
+      clear_storage(classifier)
+      _write_to_redis
+    end
+
+    private
+    def _write_to_redis
+      data = Marshal.dump(@storage)
+      @redis.set(@key, data)
+    end
+  end
 end
