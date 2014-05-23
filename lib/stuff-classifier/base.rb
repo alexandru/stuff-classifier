@@ -162,8 +162,14 @@ class StuffClassifier::Base
       return default if prob * threshold > max_prob
     end
 
-    return best    
+    return best
   end
+
+  def top_options(text, number)
+    scores = cat_scores(text)
+    array_index_end = number - 1
+    return scores[0..array_index_end]
+  end 
 
   def save_state
     @storage.save_state(self)
