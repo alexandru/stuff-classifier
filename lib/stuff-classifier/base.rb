@@ -4,9 +4,9 @@ class StuffClassifier::Base
   extend StuffClassifier::Storage::ActAsStorable
   attr_reader :name
   attr_reader :word_list
+  attr_reader :training_count
   attr_reader :category_list
   
-  attr_accessor :training_count ### Changed to accessor to decrease it when deleting a category
   attr_accessor :tokenizer
   attr_accessor :language
   
@@ -81,6 +81,22 @@ class StuffClassifier::Base
 
   end
 
+  def delete_category(category)
+    ## Remove the category's training count from the total training count
+    @training_count -= cat_count(category)  
+
+    ## Remove the category from the category list
+    @category_list.delete(category)
+
+    ## Remove the category from all words
+    @word_list.each do |word, hash|
+      if hash[:categories][category]
+        hash[:_total_word] -= hash[:categories][category]
+        hash[:categories][category].delete(category) 
+      end 
+    end 
+  end
+
   # return number of times the word appears in a category
   def word_count(word, category)
     return 0.0 unless @word_list[word] && @word_list[word][:categories] && @word_list[word][:categories][category]
@@ -109,7 +125,7 @@ class StuffClassifier::Base
     @category_list[category][:_count] ? @category_list[category][:_count].to_f : 0.0
   end
 
-  # return the number of time categories in wich a word appear
+  # return the number of time categories in which a word appear
   def categories_with_word_count(word)
     return 0 unless @word_list[word] && @word_list[word][:categories]
     @word_list[word][:categories].length 
