@@ -101,6 +101,21 @@ cls.classify("Why is the front door of our house open?")
 cls.classify("Who is eating my meat?")
 #=> :dog
 ```
+See a top number of options for classifying a specific text with the probabilities for each option. You have to specify in the argument how many options you want back:
+
+```ruby
+cls.top_options("This test is about cats.", 2)
+#=> [[:cat, 0.007260536398467432], [:dog, 0.004046934865900383]]
+cls.top_options("I hate ...", 2)
+#=> [[:cat, 0.029885057471264364], [:dog, 0.02777777777777778]]
+```
+
+Or delete a category that you no longer want to be an option
+```ruby
+cls.delete_category(:cat)
+cls.top_options("This test is about cats.", 2)
+#=>[[:dog, 0.007931034482758621]]
+```
 
 ## Persistency
 
