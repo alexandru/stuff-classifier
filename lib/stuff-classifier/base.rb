@@ -92,7 +92,7 @@ class StuffClassifier::Base
     @word_list.each do |word, hash|
       if hash[:categories][category]
         hash[:_total_word] -= hash[:categories][category]
-        hash[:categories][category].delete(category) 
+        hash[:categories].delete(category) 
       end 
     end 
   end
