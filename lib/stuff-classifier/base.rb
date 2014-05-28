@@ -5,8 +5,8 @@ class StuffClassifier::Base
   attr_reader :name
   attr_reader :word_list
   attr_reader :category_list
-  attr_reader :training_count
-
+  
+  attr_accessor :training_count ### Changed to accessor to decrease it when deleting a category
   attr_accessor :tokenizer
   attr_accessor :language
   
