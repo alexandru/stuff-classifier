@@ -92,7 +92,7 @@ module StuffClassifier
     def initialize(key, redis_options=nil)
       super
       @key = key
-      @redis = Redis.new(redis_options || {})
+      @redis = $redis || Redis.new(redis_options || {})
     end
 
     def load_state(classifier)
