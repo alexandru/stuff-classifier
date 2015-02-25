@@ -9,7 +9,7 @@ class StuffClassifier::Bayes < StuffClassifier::Base
   extend StuffClassifier::Storage::ActAsStorable
   storable :weight,:assumed_prob
 
-  def initialize(name, opts={})
+  def initialize(name=nil, opts={})
     super(name, opts)
     @weight = opts[:weight] || 1.0
     @assumed_prob = opts[:assumed_prob] || 0.1
