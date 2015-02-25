@@ -26,12 +26,8 @@ class StuffClassifier::Base
 
   def initialize(name=nil, opts={})
     @version = StuffClassifier::VERSION
-    
-    if name.nil?
-      @name = "Music Genres classifier"
-    else
-      @name = name
-    end 
+
+    @name = name unless name.nil?
 
     # This values are nil or are loaded from storage
     @word_list = {}
@@ -171,6 +167,10 @@ class StuffClassifier::Base
 
   def save_state
     @storage.save_state(self)
+  end
+
+  def name=(name)
+    @name = name
   end
 
   class << self
