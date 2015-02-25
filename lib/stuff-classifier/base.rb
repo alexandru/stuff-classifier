@@ -24,10 +24,10 @@ class StuffClassifier::Base
   # storage
   # purge_state ?
 
-  def initialize(name, opts={})
+  def initialize(name=nil, opts={})
     @version = StuffClassifier::VERSION
     
-    @name = name
+    @name = name unless name.nil? 
 
     # This values are nil or are loaded from storage
     @word_list = {}
