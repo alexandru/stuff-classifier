@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.name        = "stuff-classifier"
   s.version     = StuffClassifier::VERSION
   s.authors     = ["Alexandru Nedelcu"]
-  s.email       = ["me@alexn.org"]
+  s.email       = ["github@contact.bionicspirit.com"]
   s.homepage    = "https://github.com/alexandru/stuff-classifier/"
   s.summary     = %q{Simple text classifier(s) implemetation}
   s.description = %q{2 methods are provided for now - (1) naive bayes implementation + (2) tf-idf weights}
