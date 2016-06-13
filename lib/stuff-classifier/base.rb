@@ -1,4 +1,4 @@
-# encoding: utf-8
+# -*- encoding : utf-8 -*-
 
 class StuffClassifier::Base
   extend StuffClassifier::Storage::ActAsStorable
@@ -9,13 +9,13 @@ class StuffClassifier::Base
 
   attr_accessor :tokenizer
   attr_accessor :language
-  
+
   attr_accessor :thresholds
   attr_accessor :min_prob
 
 
   storable :version,:word_list,:category_list,:training_count,:thresholds,:min_prob
-    
+
   # opts :
   # language
   # stemming : true | false
@@ -26,7 +26,7 @@ class StuffClassifier::Base
 
   def initialize(name, opts={})
     @version = StuffClassifier::VERSION
-    
+
     @name = name
 
     # This values are nil or are loaded from storage
@@ -46,11 +46,11 @@ class StuffClassifier::Base
     # This value can be set during initialization or overrided after load_state
     @thresholds = opts[:thresholds] || {}
     @min_prob = opts[:min_prob] || 0.0
-    
+
 
     @ignore_words = nil
     @tokenizer = StuffClassifier::Tokenizer.new(opts)
-    
+
   end
 
   def incr_word(word, category)
@@ -63,7 +63,7 @@ class StuffClassifier::Base
     @word_list[word][:_total_word] ||= 0
     @word_list[word][:_total_word] += 1
 
-  
+
     # words count by categroy
     @category_list[category] ||= {}
     @category_list[category][:_total_word] ||= 0
@@ -77,7 +77,7 @@ class StuffClassifier::Base
     @category_list[category][:_count] += 1
 
     @training_count ||= 0
-    @training_count += 1 
+    @training_count += 1
 
   end
 
@@ -99,11 +99,11 @@ class StuffClassifier::Base
     @category_list[cat][:_total_word].to_f
   end
 
-  # return the number of training item 
+  # return the number of training item
   def total_cat_count
     @training_count
   end
-  
+
   # return the number of training document for a category
   def cat_count(category)
     @category_list[category][:_count] ? @category_list[category][:_count].to_f : 0.0
@@ -112,8 +112,8 @@ class StuffClassifier::Base
   # return the number of time categories in wich a word appear
   def categories_with_word_count(word)
     return 0 unless @word_list[word] && @word_list[word][:categories]
-    @word_list[word][:categories].length 
-  end  
+    @word_list[word][:categories].length
+  end
 
   # return the number of categories
   def total_categories
@@ -145,7 +145,7 @@ class StuffClassifier::Base
         best = cat
       end
     end
-    
+
     # Return the default category in case the threshold condition was
     # not met. For example, if the threshold for :spam is 1.2
     #
@@ -162,7 +162,7 @@ class StuffClassifier::Base
       return default if prob * threshold > max_prob
     end
 
-    return best    
+    return best
   end
 
   def save_state

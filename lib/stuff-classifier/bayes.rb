@@ -1,4 +1,4 @@
-# encoding: utf-8
+# -*- encoding : utf-8 -*-
 
 class StuffClassifier::Bayes < StuffClassifier::Base
   attr_accessor :weight
@@ -27,11 +27,11 @@ class StuffClassifier::Bayes < StuffClassifier::Base
 
     # calculate current probability
     basic_prob = func ? func.call(word, cat) : word_prob(word, cat)
-    
+
     # count the number of times this word has appeared in all
     # categories
     totals = total_word_count(word)
-    
+
     # the final weighted average
     (@weight * @assumed_prob + totals * basic_prob) / (@weight + totals)
   end
@@ -64,18 +64,18 @@ class StuffClassifier::Bayes < StuffClassifier::Base
     p result
 
     p "word_weighted_average"
-    result=categories.inject({}) do |h,cat| h[cat]=word_weighted_average(word,cat);h end  
+    result=categories.inject({}) do |h,cat| h[cat]=word_weighted_average(word,cat);h end
     p result
 
     p "doc_prob"
-    result=categories.inject({}) do |h,cat| h[cat]=doc_prob(word,cat);h end  
+    result=categories.inject({}) do |h,cat| h[cat]=doc_prob(word,cat);h end
     p result
 
     p "text_prob"
-    result=categories.inject({}) do |h,cat| h[cat]=text_prob(word,cat);h end  
+    result=categories.inject({}) do |h,cat| h[cat]=text_prob(word,cat);h end
     p result
-    
-    
+
+
   end
 
 end
