@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.required_ruby_version = '>= 1.9.1'
-  
+
   s.add_runtime_dependency "ruby-stemmer"
   s.add_runtime_dependency "sequel"
   s.add_runtime_dependency "redis"
@@ -30,6 +30,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "simplecov"
   s.add_development_dependency "awesome_print"
   s.add_development_dependency "ruby-debug19"
+  s.add_development_dependency "rseg"
 
 end
 

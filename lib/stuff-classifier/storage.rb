@@ -1,4 +1,4 @@
-# encoding : UTF-8
+# -*- encoding : utf-8 -*-
 module StuffClassifier
 
   class Storage
@@ -29,9 +29,9 @@ module StuffClassifier
       to_store = classifier.class.to_store + classifier.class.superclass.to_store
       @storage[classifier.name] =  to_store.inject({}) {|h,var| h[var] = classifier.instance_variable_get("@#{var}");h}
     end
-    
+
     def clear_storage(classifier)
-      @storage.delete(classifier.name)      
+      @storage.delete(classifier.name)
     end
 
   end

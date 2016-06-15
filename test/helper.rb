@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'simplecov'
 SimpleCov.start
 
@@ -13,7 +14,7 @@ Turn.config do |c|
  # :pretty   - new pretty reporter
  # :marshal  - dump output as YAML (normal run mode only)
  # :cue      - interactive testing
- c.format  = :outline
+ c.format  = :cue
  # turn on invoke/execute tracing, enable full backtrace
  c.trace   = true
  # use humanized test names (works only with :outline format)
@@ -21,7 +22,7 @@ Turn.config do |c|
 end
 
 class TestBase < MiniTest::Unit::TestCase
-  def self.before(&block)    
+  def self.before(&block)
     @on_setup = block if block
     @on_setup
   end
