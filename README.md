@@ -1,5 +1,11 @@
 # stuff-classifier
 
+## No longer maintained
+
+This repository is no longer maintained for some time. If you're interested in maintaining a fork, contact the author such that I can place a link here.
+
+## Description
+
 A library for classifying text into multiple categories.
 
 Currently provided classifiers:
